@@ -2,7 +2,7 @@
 var doc = html("<div>USER ID : {id}</div><div>NAME : {name}</div>",{
 	name 	: "Vlad",
 	id 		: 175
-}, true);
+});
 
 document.body.appendChild(doc);
 
