@@ -11,6 +11,14 @@ class Canv{
 		this.element.height = +height;
 	}
 
+	setWidth(width){
+		this.element.width = +width;
+	}
+
+	setHeight(height){
+		this.element.height = +height;
+	}
+
 	getCanvas(element) {
 		return this.element;
 	}
