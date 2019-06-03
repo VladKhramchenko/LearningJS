@@ -19,9 +19,6 @@ function canvasPrintLine(canvas){
 
 			//Функция рисования отрезка
 			function animation(){
-				//Получение координат новой точки
-				canvas.removeEventListener('mousemove', getCoord);
-				canvas.addEventListener('mousemove', getCoord);
 
 				//Рисование отрезка
 				context.beginPath();
@@ -44,6 +41,9 @@ function canvasPrintLine(canvas){
 			 	oldY = e.clientY - canvasPosition.top,
 			 	newX, newY;
 
+			//Получение координат новой точки
+			canvas.addEventListener('mousemove', getCoord);
+			
 			//Начало рисования линии
 			isDown = true;
 			requestAnimationFrame(animation);
