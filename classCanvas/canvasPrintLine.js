@@ -12,7 +12,6 @@ function canvasPrintLine(canvas){
 
 			//Функция получения координат новой точки
 			function getCoord(e){
-				let canvasPosition 	= canvas.getBoundingClientRect();
 				newX = e.clientX - canvasPosition.left;
 				newY = e.clientY - canvasPosition.top;
 			}
