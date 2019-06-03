@@ -1,41 +1,59 @@
-//Функция для рисования линии на канвасе при нажатой ЛКМ
+//Функция рисования линии на канвасе при нажатой ЛКМ
 function canvasPrintLine(canvas){
 
 	if(canvas.getContext){
 		
-		let context 	= canvas.getContext('2d');
+		let context = canvas.getContext('2d'),
+			isDown 	= false;
 
 
-		//Функция для рисования отрезка линии
+		//Функция рисования линии
 		function printLine(e){
-			//Получение координат нажатия
-			let canvasPosition 	= canvas.getBoundingClientRect(),
-			startX 			= e.clientX - canvasPosition.left,
-			startY 			= e.clientY - canvasPosition.top;
 
-			context.lineTo(e.clientX - canvasPosition.left, e.clientY - canvasPosition.top);
-			context.stroke();
-			context.beginPath();
-			context.moveTo(startX,startY);
+			//Функция получения координат новой точки
+			function getCoord(e){
+				let canvasPosition 	= canvas.getBoundingClientRect();
+				newX = e.clientX - canvasPosition.left;
+				newY = e.clientY - canvasPosition.top;
+			}
+
+			//Функция рисования отрезка
+			function animation(){
+				//Получение координат новой точки
+				canvas.removeEventListener('mousemove', getCoord);
+				canvas.addEventListener('mousemove', getCoord);
+
+				//Рисование отрезка
+				context.beginPath();
+				context.moveTo(oldX,oldY);
+				context.lineTo(newX, newY);
+				context.stroke();
+
+				//Обновление начальных координат
+				oldX = newX; oldY = newY;
+
+				//Проверка нажатия на канвас
+				if(isDown){
+					requestAnimationFrame(animation);
+				}
+			}
+
+			//Инициализация первой точки линии
+			let canvasPosition 	= canvas.getBoundingClientRect(), 
+				oldX = e.clientX - canvasPosition.left,
+			 	oldY = e.clientY - canvasPosition.top,
+			 	newX, newY;
+
+			//Начало рисования линии
+			isDown = true;
+			requestAnimationFrame(animation);
 		}
 
 
-		//Функция для начала рисования линии
-		function startPrintLine(){
-			canvas.addEventListener('mousemove', printLine);
-		}
+		//События вызывающие начало/прекращение рисования линии
+		canvas.addEventListener('mousedown', printLine);
 
-		//Функция для прекращения рисования линии
-		function stopPrintLine(){
-			canvas.removeEventListener('mousemove', printLine);
-			context.beginPath();
-		}
-
-
-		//События вызывающие начало/прекращение рисования
-		canvas.addEventListener('mousedown', startPrintLine);
-
-		canvas.addEventListener('mouseup', stopPrintLine);
-		canvas.addEventListener('mouseleave', stopPrintLine);
+		canvas.addEventListener('mouseup', ()=>isDown = false);
+		canvas.addEventListener('mouseleave', ()=>isDown = false);
 	}
 }
