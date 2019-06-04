@@ -10,35 +10,55 @@ function canvasPrintLine(canvas){
 		//Функция рисования линии
 		function printLine(e){
 
-			//Функция получения координат новой точки
+			//Функция получения координат точек ломаной
 			function getCoord(e){
 				newX = e.clientX - canvasPosition.left;
 				newY = e.clientY - canvasPosition.top;
+				coords.push([newX, newY]);
 			}
 
-			//Функция рисования отрезка
+			//Функция рисования ломаной
 			function animation(){
 
-				//Рисование отрезка
-				context.beginPath();
-				context.moveTo(oldX,oldY);
-				context.lineTo(newX, newY);
-				context.stroke();
+				let len = coords.length;
 
-				//Обновление начальных координат
-				oldX = newX; oldY = newY;
+				//Проверка на наличие как минимум 2ух точек
+				if (len > 1){
+
+					let x, y;
+
+					//Начало рисования
+					context.beginPath();
+					context.moveTo(coords[0][0],coords[0][1]);
+
+					//Рисование отрезков
+					for (let i = 1; i < len; i++){
+
+						x = coords[i][0];
+						y = coords[i][1];
+						context.lineTo(x, y);
+
+					}
+
+					context.stroke();
+
+					//Связывание конца данной ломаной с началом следующей
+					coords = [[x, y]];
+
+				}
 
 				//Проверка нажатия на канвас
 				if(isDown){
 					requestAnimationFrame(animation);
 				}
+
 			}
 
 			//Инициализация первой точки линии
 			let canvasPosition 	= canvas.getBoundingClientRect(), 
-				oldX = e.clientX - canvasPosition.left,
-			 	oldY = e.clientY - canvasPosition.top,
-			 	newX, newY;
+				firstX = e.clientX - canvasPosition.left,
+			 	firstY = e.clientY - canvasPosition.top,
+			 	coords = [[firstX, firstY]];
 
 			//Получение координат новой точки
 			canvas.addEventListener('mousemove', getCoord);
