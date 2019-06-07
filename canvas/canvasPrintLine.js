@@ -50,6 +50,8 @@ function canvasPrintLine(canvas){
 				//Проверка нажатия на канвас
 				if(isDown){
 					requestAnimationFrame(animation);
+				} else{
+					canvas.removeEventListener('mousemove', getCoord);
 				}
 
 			}
@@ -62,17 +64,24 @@ function canvasPrintLine(canvas){
 
 			//Получение координат новой точки
 			canvas.addEventListener('mousemove', getCoord);
-			
+		 	
 			//Начало рисования линии
 			isDown = true;
 			requestAnimationFrame(animation);
+		}
+
+		//Функция прекращения рисования
+		function falseIsDown(){
+
+			isDown = false;
+
 		}
 
 
 		//События вызывающие начало/прекращение рисования линии
 		canvas.addEventListener('mousedown', printLine);
 
-		canvas.addEventListener('mouseup', ()=>isDown = false);
-		canvas.addEventListener('mouseleave', ()=>isDown = false);
+		canvas.addEventListener('mouseup', falseIsDown);
+		canvas.addEventListener('mouseleave', falseIsDown);
 	}
 }

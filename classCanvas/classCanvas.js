@@ -3,7 +3,20 @@ class Canv{
 	constructor(width, height){
 		let element = this.element = document.createElement('canvas');
 		this.setSize(width, height);
-		canvasPrintLine(element);
+		addPrintLine(element);
+	}
+
+	addPrintLine(){
+
+		removePrintLine(this.element);
+		addPrintLine(this.element);
+
+	}
+
+	removePrintLine(){
+
+		removePrintLine(this.element);
+
 	}
 
 	setSize(width, height){
