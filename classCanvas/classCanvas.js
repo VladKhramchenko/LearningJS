@@ -12,7 +12,7 @@ class Canv{
 
 	//Функция рисования линии
 	printLine(e){
-		
+
 		let canvas = e.target,
 			context = canvas.getContext('2d');
 
@@ -89,6 +89,8 @@ class Canv{
 	//Функция рисования линии на канвасе при нажатой ЛКМ
 	addPrintLine(){
 
+		this.removePrintLine();
+		
 		let canvas = this.element;
 
 		if(canvas.getContext){
