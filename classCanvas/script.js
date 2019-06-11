@@ -8,6 +8,3 @@ canvas2.removePrintLine();
 
 document.body.appendChild(canvas.canvas);
 document.body.appendChild(canvas2.canvas);
-
-
-
